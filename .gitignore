@@ -1,0 +1,13 @@
+node_modules/
+
+# База данных (содержит хэши паролей и рабочие записи)
+data/
+
+# Служебные файлы
+dir.cookies
+*.log
+.env
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore

@@ -1,0 +1,291 @@
+:root {
+  --bg: #f3f5f9;
+  --card: #ffffff;
+  --text: #1c2433;
+  --muted: #6b7688;
+  --border: #dfe4ec;
+  --primary: #2456d6;
+  --primary-dark: #1c44ab;
+  --green: #1d9e59;
+  --red: #d64040;
+  --amber: #f5b942;
+  --radius: 12px;
+  --shadow: 0 2px 10px rgba(20, 30, 60, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+}
+
+.hidden { display: none !important; }
+.muted { color: var(--muted); }
+.error {
+  background: #fdecec;
+  color: var(--red);
+  border: 1px solid #f5c6c6;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+/* ---------- Login ---------- */
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1c2f63 0%, #2456d6 60%, #3b7de0 100%);
+  padding: 20px;
+}
+.login-card {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(10, 20, 60, 0.35);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+.login-logo {
+  width: 64px; height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--primary), #3b7de0);
+  color: #fff;
+  font-weight: 800;
+  font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+  letter-spacing: 1px;
+}
+.login-card h1 { margin: 0 0 4px; font-size: 22px; }
+.login-card p { margin: 0 0 22px; }
+.login-card form { text-align: left; }
+
+/* ---------- Формы ---------- */
+label {
+  display: block;
+  margin-bottom: 14px;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: #37415a;
+}
+input, select, textarea {
+  width: 100%;
+  margin-top: 5px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 400;
+  background: #fff;
+  color: var(--text);
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(36, 86, 214, 0.15);
+}
+textarea { resize: vertical; }
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.05s;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-success { background: var(--green); color: #fff; }
+.btn-success:hover { background: #16824a; }
+.btn-warn { background: var(--amber); color: #4a3500; }
+.btn-warn:hover { background: #e0a72e; }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #b93232; }
+.btn-ghost { background: transparent; color: #dfe6f5; }
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.12); }
+.content .btn-ghost, dialog .btn-ghost { color: var(--muted); }
+.content .btn-ghost:hover, dialog .btn-ghost:hover { background: #e9edf5; }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+.btn-block { width: 100%; }
+
+/* ---------- Топбар ---------- */
+.topbar {
+  background: #17224a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 22px;
+  height: 58px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: var(--shadow);
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; white-space: nowrap; }
+.brand-badge {
+  background: linear-gradient(135deg, var(--primary), #3b7de0);
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+.tabs { display: flex; gap: 4px; flex: 1; }
+.tab {
+  background: transparent;
+  border: none;
+  color: #b9c3dd;
+  font: inherit;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.tab:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
+.tab.active { color: #fff; background: rgba(255, 255, 255, 0.16); }
+.user-box { display: flex; align-items: center; gap: 8px; }
+.user-name { font-weight: 600; font-size: 14px; margin-right: 4px; }
+
+/* ---------- Контент ---------- */
+.content { max-width: 1500px; margin: 0 auto; padding: 22px; }
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px 28px;
+}
+.form-card { max-width: 820px; margin: 0 auto; }
+.form-card h2 { margin: 0 0 18px; font-size: 19px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 18px; }
+.form-actions { display: flex; gap: 10px; margin-top: 6px; grid-column: 1 / -1; }
+.check-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-weight: normal;
+  cursor: pointer;
+}
+.check-label input { width: auto; margin: 0; }
+.small { font-size: 12px; }
+.role-select { padding: 4px 8px; }
+
+/* ---------- Статистика ---------- */
+.stats { display: flex; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+.stat-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px 22px;
+  min-width: 150px;
+}
+.stat-num { font-size: 26px; font-weight: 800; }
+.stat-label { color: var(--muted); font-size: 13px; margin-top: 2px; }
+.accent-red { color: var(--red); }
+.accent-green { color: var(--green); }
+
+/* ---------- Тулбар ---------- */
+.toolbar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.toolbar input[type="search"] { flex: 1; min-width: 220px; margin-top: 0; }
+.toolbar select { width: auto; margin-top: 0; }
+.toolbar .btn { white-space: nowrap; }
+
+/* ---------- Таблица ---------- */
+.table-wrap {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+thead th {
+  background: #f0f3f9;
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #4a5570;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+}
+tbody td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #edf0f6;
+  vertical-align: top;
+  max-width: 260px;
+}
+tbody tr:hover { background: #f7f9fd; }
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.badge-open { background: #fdecec; color: var(--red); }
+.badge-done { background: #e3f6ec; color: var(--green); }
+.badge-dir { background: #e8eefc; color: var(--primary); }
+.badge-mid { background: #fdf3dc; color: #8a6410; }
+.badge-off { background: #eef0f4; color: var(--muted); }
+.row-actions { display: flex; gap: 6px; white-space: nowrap; }
+.icon-btn {
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 7px;
+  padding: 4px 9px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.icon-btn:hover { background: #f0f3f9; }
+.icon-btn.danger { color: var(--red); border-color: #f0cccc; }
+.icon-btn.danger:hover { background: #fdecec; }
+.empty { padding: 40px; text-align: center; color: var(--muted); }
+
+/* ---------- Диалог / тост ---------- */
+dialog {
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(10, 20, 60, 0.3);
+  padding: 0;
+}
+dialog::backdrop { background: rgba(15, 22, 45, 0.5); }
+.dialog-card { padding: 26px 28px; min-width: 340px; }
+.dialog-card h2 { margin: 0 0 16px; font-size: 18px; }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #17224a;
+  color: #fff;
+  padding: 11px 22px;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(10, 20, 60, 0.35);
+  font-weight: 600;
+  z-index: 100;
+}
+.toast.success { background: var(--green); }
+.toast.error-toast { background: var(--red); }
+
+@media (max-width: 720px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .topbar { flex-wrap: wrap; height: auto; padding: 10px 14px; gap: 10px; }
+  .content { padding: 14px; }
+}

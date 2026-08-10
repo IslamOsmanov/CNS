@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CNS Nasazlıq Jurnalı</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ============ Вход ============ -->
+<div id="login-screen" class="login-wrap hidden">
+  <div class="login-card">
+    <div class="login-logo">CNS</div>
+    <h1>Nasazlıq Jurnalı</h1>
+    <p class="muted">Hesabınızla daxil olun</p>
+    <form id="login-form">
+      <label>Login
+        <input type="text" id="login-username" autocomplete="username" required />
+      </label>
+      <label>Parol
+        <input type="password" id="login-password" autocomplete="current-password" required />
+      </label>
+      <div id="login-error" class="error hidden"></div>
+      <button type="submit" class="btn btn-primary btn-block">Daxil ol</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ Приложение ============ -->
+<div id="app-screen" class="app hidden">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-badge">CNS</span>
+      <span>Nasazlıq Jurnalı</span>
+    </div>
+    <nav class="tabs" id="nav-tabs">
+      <button class="tab active" data-tab="journal">Jurnal</button>
+      <button class="tab" data-tab="new">Yeni qeyd</button>
+      <button class="tab perm hidden" data-perm="manage_users" data-tab="users">İstifadəçilər</button>
+      <button class="tab perm hidden" data-perm="manage_users" data-tab="roles">Rollar</button>
+    </nav>
+    <div class="user-box">
+      <span id="user-name" class="user-name"></span>
+      <button class="btn btn-ghost btn-sm" id="btn-password">Parol</button>
+      <button class="btn btn-ghost btn-sm" id="btn-logout">Çıxış</button>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- ---- Журнал ---- -->
+    <section id="tab-journal" class="tab-panel">
+      <div class="stats perm hidden" data-perm="view_all_reports">
+        <div class="stat-card"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Cəmi qeyd</div></div>
+        <div class="stat-card"><div class="stat-num accent-red" id="stat-open">0</div><div class="stat-label">Bərpa olunmayıb</div></div>
+        <div class="stat-card"><div class="stat-num accent-green" id="stat-month">0</div><div class="stat-label">Bu ay</div></div>
+      </div>
+
+      <div class="toolbar">
+        <input type="search" id="filter-search" placeholder="Axtarış: sistem, nasazlıq, şəxs..." />
+        <select id="filter-xidmet">
+          <option value="">Bütün xidmətlər</option>
+        </select>
+        <select id="filter-status">
+          <option value="">Bütün statuslar</option>
+          <option value="open">Bərpa olunmayıb</option>
+          <option value="done">Bərpa olunub</option>
+        </select>
+        <button class="btn btn-success perm hidden" data-perm="export_import" id="btn-export">Excel yüklə</button>
+        <button class="btn btn-warn perm hidden" data-perm="export_import" id="btn-import">Excel-dən import</button>
+        <button class="btn btn-danger perm hidden" data-perm="delete_reports" id="btn-delete-all">Hamısını sil</button>
+        <input type="file" id="import-file" accept=".xlsx" class="hidden" />
+      </div>
+
+      <div class="table-wrap">
+        <table id="reports-table">
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>Xidmət</th>
+              <th>Obyekt</th>
+              <th>Sistem, avadanlıq</th>
+              <th>Nasazlıq</th>
+              <th>Nasazlıq vaxtı</th>
+              <th>Vaciblik</th>
+              <th>Səbəb</th>
+              <th>Tədbir</th>
+              <th>Bərpa vaxtı</th>
+              <th>Müraciət edilən</th>
+              <th>Cavabdeh</th>
+              <th>Daxil etdi</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="empty-journal" class="empty hidden">Hələ qeyd yoxdur</div>
+      </div>
+    </section>
+
+    <!-- ---- Новая запись / редактирование ---- -->
+    <section id="tab-new" class="tab-panel hidden">
+      <div class="card form-card">
+        <h2 id="form-title">Yeni nasazlıq qeydi</h2>
+        <form id="report-form">
+          <input type="hidden" id="f-id" />
+          <div class="grid-2">
+            <label>Xidmət *
+              <input type="text" id="f-xidmet" list="xidmet-list" required placeholder="Məs: Rabitə, NAV..." />
+              <datalist id="xidmet-list">
+                <option>Rabitə</option>
+                <option>NAV</option>
+                <option>Müşahidə (RLS)</option>
+                <option>Avtomatlaşdırma</option>
+                <option>Enerji</option>
+                <option>Digər</option>
+              </datalist>
+            </label>
+            <label>Obyekt / yer
+              <input type="text" id="f-obyekt" placeholder="Məs: Bakı, Naxçıvan..." />
+            </label>
+          </div>
+          <label>Sistem, avadanlıq *
+            <input type="text" id="f-sistem" placeholder="Məs: ILS 15/17, AZOKON, VCS..." required />
+          </label>
+          <label>Nasazlıq barədə məlumat *
+            <textarea id="f-nasazliq" rows="3" required></textarea>
+          </label>
+          <div class="grid-2">
+            <label>Nasazlıq tarixi və saatı *
+              <input type="datetime-local" id="f-nasazliq-vaxti" required />
+            </label>
+            <label>Bərpa tarixi və saatı
+              <input type="datetime-local" id="f-berpa-vaxti" />
+            </label>
+          </div>
+          <div class="grid-2">
+            <label>Vaciblik
+              <select id="f-prioritet">
+                <option value="asagi">Aşağı</option>
+                <option value="orta" selected>Orta</option>
+                <option value="yuksek">Yüksək</option>
+              </select>
+            </label>
+          </div>
+          <label>Səbəb
+            <textarea id="f-sebeb" rows="2"></textarea>
+          </label>
+          <label>Tədbir
+            <textarea id="f-tedbir" rows="2"></textarea>
+          </label>
+          <div class="grid-2">
+            <label>Müraciət edilən şəxs
+              <input type="text" id="f-muraciet" />
+            </label>
+            <label>Cavabdeh
+              <input type="text" id="f-cavabdeh" />
+            </label>
+          </div>
+          <div id="form-error" class="error hidden"></div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Göndər</button>
+            <button type="button" class="btn btn-ghost hidden" id="btn-cancel-edit">Ləğv et</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ---- Пользователи (админ) ---- -->
+    <section id="tab-users" class="tab-panel hidden">
+      <div class="card form-card">
+        <h2>Yeni hesab</h2>
+        <form id="user-form" class="grid-3">
+          <label>Ad, soyad
+            <input type="text" id="u-name" required />
+          </label>
+          <label>Login
+            <input type="text" id="u-username" required />
+          </label>
+          <label>Parol
+            <input type="text" id="u-password" minlength="6" required />
+          </label>
+          <label>Rol
+            <select id="u-role"></select>
+          </label>
+          <div id="user-error" class="error hidden"></div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Yarat</button>
+          </div>
+        </form>
+      </div>
+      <div class="table-wrap">
+        <table id="users-table">
+          <thead>
+            <tr><th>№</th><th>Ad, soyad</th><th>Login</th><th>Rol</th><th>Status</th><th></th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---- Роли (админ) ---- -->
+    <section id="tab-roles" class="tab-panel hidden">
+      <div class="card form-card">
+        <h2>Yeni rol</h2>
+        <form id="role-form" class="grid-3">
+          <label>Rolun adı
+            <input type="text" id="r-label" placeholder="Məs: Müdir, Nəzarətçi..." required />
+          </label>
+          <label class="check-label"><input type="checkbox" id="r-manage_users" /> İstifadəçi və rolları idarə et</label>
+          <label class="check-label"><input type="checkbox" id="r-view_all_reports" /> Bütün qeydləri gör</label>
+          <label class="check-label"><input type="checkbox" id="r-delete_reports" /> Qeydləri sil</label>
+          <label class="check-label"><input type="checkbox" id="r-export_import" /> Excel yüklə / import</label>
+          <div id="role-error" class="error hidden"></div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Yarat</button>
+          </div>
+        </form>
+      </div>
+      <div class="table-wrap">
+        <table id="roles-table">
+          <thead>
+            <tr>
+              <th>№</th><th>Ad</th>
+              <th>İdarəetmə</th><th>Bütün qeydlər</th><th>Silmə</th><th>Excel</th>
+              <th>İstifadəçi</th><th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ Смена пароля ============ -->
+<dialog id="password-dialog">
+  <form id="password-form" method="dialog" class="dialog-card">
+    <h2>Parolun dəyişdirilməsi</h2>
+    <label>Köhnə parol
+      <input type="password" id="p-old" required />
+    </label>
+    <label>Yeni parol (ən azı 6 simvol)
+      <input type="password" id="p-new" minlength="6" required />
+    </label>
+    <div id="password-error" class="error hidden"></div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" value="save">Yadda saxla</button>
+      <button type="button" class="btn btn-ghost" id="btn-password-close">Bağla</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
